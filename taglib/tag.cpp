@@ -32,15 +32,15 @@
 
 using namespace TagLib;
 
-class Tag::TagPrivate
+class TagLib::Tag::TagPrivate
 {
 };
 
-Tag::Tag() = default;
+TagLib::Tag::Tag() = default;
 
-Tag::~Tag() = default;
+TagLib::Tag::~Tag() = default;
 
-bool Tag::isEmpty() const
+bool TagLib::Tag::isEmpty() const
 {
   return title().isEmpty() &&
          artist().isEmpty() &&
@@ -51,7 +51,7 @@ bool Tag::isEmpty() const
          track() == 0;
 }
 
-PropertyMap Tag::properties() const
+PropertyMap TagLib::Tag::properties() const
 {
   PropertyMap map;
   if(!title().isEmpty())
@@ -71,11 +71,11 @@ PropertyMap Tag::properties() const
   return map;
 }
 
-void Tag::removeUnsupportedProperties(const StringList&)
+void TagLib::Tag::removeUnsupportedProperties(const StringList&)
 {
 }
 
-PropertyMap Tag::setProperties(const PropertyMap &origProps)
+PropertyMap TagLib::Tag::setProperties(const PropertyMap &origProps)
 {
   PropertyMap props(origProps);
   props.removeEmpty();
@@ -146,22 +146,22 @@ PropertyMap Tag::setProperties(const PropertyMap &origProps)
   return props;
 }
 
-StringList Tag::complexPropertyKeys() const
+StringList TagLib::Tag::complexPropertyKeys() const
 {
   return StringList();
 }
 
-List<VariantMap> Tag::complexProperties(const String &) const
+List<VariantMap> TagLib::Tag::complexProperties(const String &) const
 {
   return {};
 }
 
-bool Tag::setComplexProperties(const String &, const List<VariantMap> &)
+bool TagLib::Tag::setComplexProperties(const String &, const List<VariantMap> &)
 {
   return false;
 }
 
-void Tag::duplicate(const Tag *source, Tag *target, bool overwrite) // static
+void TagLib::Tag::duplicate(const Tag *source, Tag *target, bool overwrite) // static
 {
   if(overwrite) {
     target->setTitle(source->title());
@@ -190,7 +190,7 @@ void Tag::duplicate(const Tag *source, Tag *target, bool overwrite) // static
   }
 }
 
-String Tag::joinTagValues(const StringList &values)
+String TagLib::Tag::joinTagValues(const StringList &values)
 {
   return values.toString(" / ");
 }

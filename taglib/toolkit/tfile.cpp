@@ -45,7 +45,7 @@
 
 using namespace TagLib;
 
-class File::FilePrivate
+class TagLib::File::FilePrivate
 {
 public:
   FilePrivate(IOStream *stream, bool owner) :
@@ -72,64 +72,64 @@ public:
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-File::File(FileName fileName) :
+TagLib::File::File(FileName fileName) :
   d(std::make_unique<FilePrivate>(new FileStream(fileName), true))
 {
 }
 
-File::File(IOStream *stream) :
+TagLib::File::File(IOStream *stream) :
   d(std::make_unique<FilePrivate>(stream, false))
 {
 }
 
-File::~File() = default;
+TagLib::File::~File() = default;
 
-FileName File::name() const
+FileName TagLib::File::name() const
 {
   return d->stream->name();
 }
 
-PropertyMap File::properties() const
+PropertyMap TagLib::File::properties() const
 {
   return tag()->properties();
 }
 
-void File::removeUnsupportedProperties(const StringList &properties)
+void TagLib::File::removeUnsupportedProperties(const StringList &properties)
 {
   tag()->removeUnsupportedProperties(properties);
 }
 
-PropertyMap File::setProperties(const PropertyMap &properties)
+PropertyMap TagLib::File::setProperties(const PropertyMap &properties)
 {
   return tag()->setProperties(properties);
 }
 
-StringList File::complexPropertyKeys() const
+StringList TagLib::File::complexPropertyKeys() const
 {
   return tag()->complexPropertyKeys();
 }
 
-List<VariantMap> File::complexProperties(const String &key) const
+List<VariantMap> TagLib::File::complexProperties(const String &key) const
 {
   return tag()->complexProperties(key);
 }
 
-bool File::setComplexProperties(const String &key, const List<VariantMap> &value)
+bool TagLib::File::setComplexProperties(const String &key, const List<VariantMap> &value)
 {
   return tag()->setComplexProperties(key, value);
 }
 
-ByteVector File::readBlock(size_t length)
+ByteVector TagLib::File::readBlock(size_t length)
 {
   return d->stream->readBlock(length);
 }
 
-void File::writeBlock(const ByteVector &data)
+void TagLib::File::writeBlock(const ByteVector &data)
 {
   d->stream->writeBlock(data);
 }
 
-offset_t File::find(const ByteVector &pattern, offset_t fromOffset, const ByteVector &before)
+offset_t TagLib::File::find(const ByteVector &pattern, offset_t fromOffset, const ByteVector &before)
 {
   if(!d->stream || pattern.size() > bufferSize())
       return -1;
@@ -224,7 +224,7 @@ offset_t File::find(const ByteVector &pattern, offset_t fromOffset, const ByteVe
 }
 
 
-offset_t File::rfind(const ByteVector &pattern, offset_t fromOffset, const ByteVector &before)
+offset_t TagLib::File::rfind(const ByteVector &pattern, offset_t fromOffset, const ByteVector &before)
 {
   if(!d->stream || pattern.size() > bufferSize())
       return -1;
@@ -297,52 +297,52 @@ offset_t File::rfind(const ByteVector &pattern, offset_t fromOffset, const ByteV
   return -1;
 }
 
-void File::insert(const ByteVector &data, offset_t start, size_t replace)
+void TagLib::File::insert(const ByteVector &data, offset_t start, size_t replace)
 {
   d->stream->insert(data, start, replace);
 }
 
-void File::removeBlock(offset_t start, size_t length)
+void TagLib::File::removeBlock(offset_t start, size_t length)
 {
   d->stream->removeBlock(start, length);
 }
 
-bool File::readOnly() const
+bool TagLib::File::readOnly() const
 {
   return d->stream->readOnly();
 }
 
-bool File::isOpen() const
+bool TagLib::File::isOpen() const
 {
   return d->stream->isOpen();
 }
 
-bool File::isValid() const
+bool TagLib::File::isValid() const
 {
   return isOpen() && d->valid;
 }
 
-void File::seek(offset_t offset, Position p)
+void TagLib::File::seek(offset_t offset, Position p)
 {
   d->stream->seek(offset, static_cast<IOStream::Position>(p));
 }
 
-void File::truncate(offset_t length)
+void TagLib::File::truncate(offset_t length)
 {
   d->stream->truncate(length);
 }
 
-void File::clear()
+void TagLib::File::clear()
 {
   d->stream->clear();
 }
 
-offset_t File::tell() const
+offset_t TagLib::File::tell() const
 {
   return d->stream->tell();
 }
 
-offset_t File::length()
+offset_t TagLib::File::length()
 {
   return d->stream->length();
 }
@@ -351,12 +351,12 @@ offset_t File::length()
 // protected members
 ////////////////////////////////////////////////////////////////////////////////
 
-unsigned int File::bufferSize()
+unsigned int TagLib::File::bufferSize()
 {
   return 1024;
 }
 
-void File::setValid(bool valid)
+void TagLib::File::setValid(bool valid)
 {
   d->valid = valid;
 }

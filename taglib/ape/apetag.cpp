@@ -68,7 +68,7 @@ namespace
 class APE::Tag::TagPrivate
 {
 public:
-  File *file { nullptr };
+  TagLib::File *file { nullptr };
   offset_t footerLocation { 0 };
 
   Footer footer;

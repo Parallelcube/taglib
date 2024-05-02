@@ -88,17 +88,17 @@ TagUnion::TagUnion(Tag *first, Tag *second, Tag *third) :
 
 TagUnion::~TagUnion() = default;
 
-Tag *TagUnion::operator[](int index) const
+TagLib::Tag *TagUnion::operator[](int index) const
 {
   return tag(index);
 }
 
-Tag *TagUnion::tag(int index) const
+TagLib::Tag *TagUnion::tag(int index) const
 {
   return d->tags[index];
 }
 
-void TagUnion::set(int index, Tag *tag)
+void TagUnion::set(int index, TagLib::Tag *tag)
 {
   delete d->tags[index];
   d->tags[index] = tag;

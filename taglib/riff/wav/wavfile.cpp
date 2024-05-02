@@ -35,7 +35,7 @@ using namespace TagLib;
 
 namespace
 {
-  enum { ID3v2Index = 0, InfoIndex = 1 };
+  enum { ID3v2Index_wav = 0, InfoIndex = 1 };
 } // namespace
 
 class RIFF::WAV::File::FilePrivate
@@ -100,7 +100,7 @@ TagLib::Tag *RIFF::WAV::File::tag() const
 
 ID3v2::Tag *RIFF::WAV::File::ID3v2Tag() const
 {
-  return d->tag.access<ID3v2::Tag>(ID3v2Index, false);
+  return d->tag.access<ID3v2::Tag>(ID3v2Index_wav, false);
 }
 
 RIFF::Info::Tag *RIFF::WAV::File::InfoTag() const
@@ -113,7 +113,7 @@ void RIFF::WAV::File::strip(TagTypes tags)
   removeTagChunks(tags);
 
   if(tags & ID3v2)
-    d->tag.set(ID3v2Index, new ID3v2::Tag(nullptr, 0, d->ID3v2FrameFactory));
+    d->tag.set(ID3v2Index_wav, new ID3v2::Tag(nullptr, 0, d->ID3v2FrameFactory));
 
   if(tags & Info)
     d->tag.set(InfoIndex, new RIFF::Info::Tag());
@@ -199,8 +199,8 @@ void RIFF::WAV::File::read(bool readProperties)
 {
   for(unsigned int i = 0; i < chunkCount(); ++i) {
     if(const ByteVector name = chunkName(i); name == "ID3 " || name == "id3 ") {
-      if(!d->tag[ID3v2Index]) {
-        d->tag.set(ID3v2Index, new ID3v2::Tag(this, chunkOffset(i),
+      if(!d->tag[ID3v2Index_wav]) {
+        d->tag.set(ID3v2Index_wav, new ID3v2::Tag(this, chunkOffset(i),
                                               d->ID3v2FrameFactory));
         d->hasID3v2 = true;
       }
@@ -221,8 +221,8 @@ void RIFF::WAV::File::read(bool readProperties)
     }
   }
 
-  if(!d->tag[ID3v2Index])
-    d->tag.set(ID3v2Index, new ID3v2::Tag(nullptr, 0, d->ID3v2FrameFactory));
+  if(!d->tag[ID3v2Index_wav])
+    d->tag.set(ID3v2Index_wav, new ID3v2::Tag(nullptr, 0, d->ID3v2FrameFactory));
 
   if(!d->tag[InfoIndex])
     d->tag.set(InfoIndex, new RIFF::Info::Tag());

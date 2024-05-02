@@ -51,8 +51,8 @@ using namespace ID3v2;
 
 namespace
 {
-  const ID3v2::Latin1StringHandler defaultStringHandler;
-  const ID3v2::Latin1StringHandler *stringHandler = &defaultStringHandler;
+  const ID3v2::Latin1StringHandler defaultStringHandler2;
+  const ID3v2::Latin1StringHandler *stringHandler2 = &defaultStringHandler2;
 
   constexpr long MinPaddingSize = 1024;
   constexpr long MaxPaddingSize = 1024 * 1024;
@@ -175,7 +175,7 @@ String ID3v2::Tag::genre() const
   // appended to the genre string.  Multiple fields will be appended as the
   // string is built.
 
-  StringList genres;
+  StringList genresList;
 
   for(auto &field : f->fieldList()) {
 
@@ -188,11 +188,11 @@ String ID3v2::Tag::genre() const
       field = ID3v1::genre(number);
     }
 
-    if(std::find(genres.begin(), genres.end(), field) == genres.end())
-      genres.append(field);
+    if(std::find(genresList.begin(), genresList.end(), field) == genresList.end())
+      genresList.append(field);
   }
 
-  return joinTagValues(genres);
+  return joinTagValues(genresList);
 }
 
 unsigned int ID3v2::Tag::year() const
@@ -632,15 +632,15 @@ void ID3v2::Tag::downgradeFrames(FrameList *frames, FrameList *newFrames) const
   }
 
   if(frameTCON) {
-    const StringList genres = frameTCON->fieldList();
+    const StringList genresList = frameTCON->fieldList();
     String combined;
     String genreText;
-    const bool hasMultipleGenres = genres.size() > 1;
+    const bool hasMultipleGenres = genresList.size() > 1;
 
     // If there are multiple genres, add them as multiple references to ID3v1
     // genres if such a reference exists. The first genre for which no ID3v1
     // genre number exists can be finally added as a refinement.
-    for(const auto &genre : genres) {
+    for(const auto &genre : genresList) {
       bool ok = false;
       if(int number = genre.toInt(&ok);
          (ok && number >= 0 && number <= 255) || genre == "RX" || genre == "CR")
@@ -740,15 +740,15 @@ ByteVector ID3v2::Tag::render(Version version) const
 
 Latin1StringHandler const *ID3v2::Tag::latin1StringHandler()
 {
-  return stringHandler;
+  return stringHandler2;
 }
 
 void ID3v2::Tag::setLatin1StringHandler(const Latin1StringHandler *handler)
 {
   if(handler)
-    stringHandler = handler;
+    stringHandler2 = handler;
   else
-    stringHandler = &defaultStringHandler;
+    stringHandler2 = &defaultStringHandler2;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

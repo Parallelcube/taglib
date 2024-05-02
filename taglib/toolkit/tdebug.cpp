@@ -22,6 +22,7 @@
  *   License Version 1.1.  You may obtain a copy of the License at         *
  *   http://www.mozilla.org/MPL/                                           *
  ***************************************************************************/
+#include "tdebug.h"
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -31,7 +32,6 @@
 
 #include <bitset>
 
-#include "tdebug.h"
 #include "tstring.h"
 #include "tdebuglistener.h"
 #include "tutils.h"

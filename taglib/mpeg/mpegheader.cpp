@@ -56,7 +56,7 @@ public:
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-MPEG::Header::Header(File *file, offset_t offset, bool checkLength) :
+MPEG::Header::Header(TagLib::File *file, offset_t offset, bool checkLength) :
   d(std::make_shared<HeaderPrivate>())
 {
   parse(file, offset, checkLength);
@@ -149,7 +149,7 @@ MPEG::Header &MPEG::Header::operator=(const Header &h)
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
-void MPEG::Header::parse(File *file, offset_t offset, bool checkLength)
+void MPEG::Header::parse(TagLib::File *file, offset_t offset, bool checkLength)
 {
   file->seek(offset);
   const ByteVector data = file->readBlock(4);

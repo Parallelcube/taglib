@@ -36,8 +36,8 @@ using namespace RIFF::Info;
 
 namespace
 {
-  const RIFF::Info::StringHandler defaultStringHandler;
-  const RIFF::Info::StringHandler *stringHandler = &defaultStringHandler;
+  const RIFF::Info::StringHandler defaultStringHandler_info;
+  const RIFF::Info::StringHandler *stringHandler_info = &defaultStringHandler_info;
 } // namespace
 
 class RIFF::Info::Tag::TagPrivate
@@ -54,9 +54,9 @@ class RIFF::Info::StringHandler::StringHandlerPrivate
 // StringHandler implementation
 ////////////////////////////////////////////////////////////////////////////////
 
-StringHandler::StringHandler() = default;
+TagLib::RIFF::Info::StringHandler::StringHandler() = default;
 
-StringHandler::~StringHandler() = default;
+TagLib::RIFF::Info::StringHandler::~StringHandler() = default;
 
 String RIFF::Info::StringHandler::parse(const ByteVector &data) const
 {
@@ -280,7 +280,7 @@ ByteVector RIFF::Info::Tag::render() const
   ByteVector data("INFO");
 
   for(const auto &[field, list] : std::as_const(d->fieldListMap)) {
-    ByteVector text = stringHandler->render(list);
+    ByteVector text = stringHandler_info->render(list);
     if(text.isEmpty())
       continue;
 
@@ -301,9 +301,9 @@ ByteVector RIFF::Info::Tag::render() const
 void RIFF::Info::Tag::setStringHandler(const StringHandler *handler)
 {
   if(handler)
-    stringHandler = handler;
+    stringHandler_info = handler;
   else
-    stringHandler = &defaultStringHandler;
+    stringHandler_info = &defaultStringHandler_info;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -319,7 +319,7 @@ void RIFF::Info::Tag::parse(const ByteVector &data)
       break;
 
     if(const ByteVector id = data.mid(p, 4); isValidChunkName(id)) {
-      const String text = stringHandler->parse(data.mid(p + 8, size));
+      const String text = stringHandler_info->parse(data.mid(p + 8, size));
       d->fieldListMap[id] = text;
     }
 

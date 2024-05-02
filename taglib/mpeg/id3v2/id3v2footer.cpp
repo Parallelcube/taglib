@@ -30,20 +30,20 @@
 using namespace TagLib;
 using namespace ID3v2;
 
-class Footer::FooterPrivate
+class TagLib::ID3v2::Footer::FooterPrivate
 {
 };
 
-Footer::Footer() = default;
+TagLib::ID3v2::Footer::Footer() = default;
 
-Footer::~Footer() = default;
+TagLib::ID3v2::Footer::~Footer() = default;
 
-unsigned int Footer::size()
+unsigned int TagLib::ID3v2::Footer::size()
 {
   return 10;
 }
 
-ByteVector Footer::render(const Header *header) const
+ByteVector TagLib::ID3v2::Footer::render(const Header *header) const
 {
   ByteVector headerData = header->render();
   headerData[0] = '3';
